@@ -97,6 +97,24 @@ export function getAssetColumns(handleClickAction: (clickedRow: any) =>void): Gr
             headerName: "Temperature",
             flex: 1,
         },
+        {
+            field: "actions",
+            headerName: "Actions",
+            renderCell: (params) => {
+              return (
+                <>
+                  {!params.row.orderNeedsAttention && params.row.fieldUpdates?.length ? (
+                    <Chip clickable onClick={() => handleClickAction(params.row)} icon={<EditOutlined />} size="small" variant="outlined" label="UPDATES" color={"warning"} />
+                  ) : null}
+                  {params.row.dataMismatches?.length ? (
+                    <Chip size="small" clickable onClick={() => handleClickAction(params.row)} icon={<RuleOutlined />} variant="outlined" label="MISMATCH" color={"warning"} />
+                  ) : null}
+                </>
+              );
+            },
+            width: 200,
+          },
+      
         
     ]
 }

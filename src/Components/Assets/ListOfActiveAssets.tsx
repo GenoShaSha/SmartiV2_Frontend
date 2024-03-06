@@ -30,14 +30,14 @@ import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 
 
   const userData = [
-    { id: 1, assetID: 'BC-00123', status: "Occupied",  currentLocation: "Warehouse"},
-    { id: 2, assetID: 'BC-00321', status: "Occupied", currentLocation: "Warehouse"},
-    { id: 3, assetID: 'BC-00213', status: "Occupied", currentLocation: "Warehouse"},
-    { id: 5, assetID: 'BC-00541', status: "Occupied", currentLocation: "Warehouse"},
-    { id: 6, assetID: 'BC-00765', status: "Occupied", currentLocation: "Warehouse"},
-    { id: 7, assetID: 'BC-00564', status: "Occupied", currentLocation: "T-Hofke Bloemenwinkle"},
-    { id: 8, assetID: 'BC-00731', status: "Occupied", currentLocation: "T-Hofke Bloemenwinkle"},
-   { id: 9, assetID: 'BC-00912', status: "Occupied", currentLocation: "T-Hofke Bloemenwinkle"},
+    { id: 1, assetID: 'BC-00123', typeID:'PHA-0001', status: "Occupied",  currentLocation: "Warehouse"},
+    { id: 2, assetID: 'BC-00321', status:'PHA-0002', currentLocation: "Warehouse"},
+    { id: 3, assetID: 'BC-00213', status: 'PHA-0003', currentLocation: "Warehouse"},
+    { id: 5, assetID: 'BC-00541', status:'PHA-0004', currentLocation: "Warehouse"},
+    { id: 6, assetID: 'BC-00765', status: 'PHA-0005', currentLocation: "Warehouse"},
+    { id: 7, assetID: 'BC-00564', status: 'PHA-0006', currentLocation: "T-Hofke Bloemenwinkle"},
+    { id: 8, assetID: 'BC-00731', status: 'PHA-0007', currentLocation: "T-Hofke Bloemenwinkle"},
+   { id: 9, assetID: 'BC-00912', status: 'PHA-0009', currentLocation: "T-Hofke Bloemenwinkle"},
   ];
 
   
@@ -50,39 +50,17 @@ import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 
 const CurrentLocation = [
     {
-      label: "All",
-      value: "all",
+      label: " ",
+      value: " ",
     },
-    {
-      label: "Data mismatches",
-      value: "data_mismatches",
-    },
-    {
-      label: "Data updates",
-      value: "fieldUpdates",
-    },
-    {
-      label: "Required docs missing",
-      value: "required_docs_missing",
-    },
+
   ] as any;
   const STATUSOPTIONS = [
     {
-      label: "Booked",
-      value: "booked",
+      label: " ",
+      value: " ",
     },
-    {
-      label: "Planned",
-      value: "planned",
-    },
-    {
-      label: "Rescheduled",
-      value: "rescheduled",
-    },
-    {
-      label: "Delivered",
-      value: "delivered",
-    },
+
   ] as any;
 
   const ListOfActiveAssets = () =>{
@@ -258,8 +236,7 @@ const CurrentLocation = [
                   toolbar: { ...ToolbarProps, selectedTab },
                 }}
                 rows={userData}
-                // rows={selectedTab === "active_orders" ? "filteredOrders : filteredOrders.filter((order) => order.status === completed)"}
-                // loading={loading}
+                loading={userData.length === 0}               
                 columns={columns.map((col) => {
                   return {
                     ...col,
@@ -277,7 +254,6 @@ const CurrentLocation = [
                     right: ["documents", "actions", "status"],
                   },
                 }}
-                getRowId={(row) => row.fbId}
 //only happen when the service is done!!!!!!!!
                 // onRowSelectionModelChange={(ids) => {
                 //   handleRowSelection(ids as Array<String>);
