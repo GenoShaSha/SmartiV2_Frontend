@@ -16,15 +16,10 @@ import { AppBar } from "./AppBar";
 import { Drawer, DrawerHeader } from "./Drawer";
 import pharoxLogo from "../../assets/pharox-menu-logo.svg";
 import { Avatar, Typography } from "@mui/material";
-import { deepPurple } from "@mui/material/colors";
 import DropDownMenu from "./DropDownMenu";
-import { menus } from "../../Constants/Menus";
+import { menus } from "../Menus/Menus";
 import { NavLink } from "react-router-dom";
 
-let activeStyle = {
-  textDecoration: "none",
-  color: "white",
-};
 
 export default function AppBarWithDrawer() {
   // hooks
@@ -74,7 +69,7 @@ export default function AppBarWithDrawer() {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" className="topBarText" noWrap>
-              pharox frontend starter template
+              SMARTI
             </Typography>
           </Box>
           <Box sx={{ display: "flex", alignItems: "center", position: "relative" }}>
@@ -96,7 +91,7 @@ export default function AppBarWithDrawer() {
                 ml: 2,
                 width: 46,
                 height: 46,
-                bgcolor: deepPurple[500],
+                bgcolor: "lightgray",
               }}
             />
             {showDropDown && (
@@ -131,7 +126,7 @@ export default function AppBarWithDrawer() {
                     disablePadding
                     sx={{
                       display: "block",
-                      backgroundColor: `${isActive ? "#3c00ff32" : ""}`,
+                      color: `${isActive ? "#000080" : ""}`,
                     }}
                   >
                     <ListItemButton
@@ -187,7 +182,6 @@ export default function AppBarWithDrawer() {
             sx={{
               width: "3rem",
               height: "3rem",
-              // backgroundColor: "#ffffff3a",
             }}
           >
             <img style={{ width: "3.4rem", height: "1.8rem" }} src={pharoxLogo} />

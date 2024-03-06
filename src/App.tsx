@@ -4,7 +4,8 @@ import { HashRouter, Route, Routes } from "react-router-dom";
 import React, { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import LoadingScreen from "./Components/LoadingScreen/Loadingscreen";
-import Layout from "./Components/Layout/Layout";
+import Layout from "./Layout/MainLayout";
+import ListOfActiveAssets from "./Components/Assets/ListOfActiveAssets";
 
 function App() {
   // STATES
@@ -34,7 +35,9 @@ function App() {
 
           <Routes>
             <Route path="/" element={<></>} />
-            <Route path="/dashboard" element={<></>} />
+            <Route path="/Assets" element={<ListOfActiveAssets/>} />            
+            <Route path="/UserManagement" element={<></>} />
+
           </Routes>
         </Layout>
       </HashRouter>
