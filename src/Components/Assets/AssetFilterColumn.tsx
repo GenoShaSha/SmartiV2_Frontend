@@ -57,7 +57,7 @@ export function getAssetColumns(handleClickAction: (clickedRow: any) =>void): Gr
             flex: 1,
         }, 
         {
-            field: "comittee-name",
+            field: "comitteeName",
             headerName: "Comittee Name",
             flex: 1,
         },    
@@ -67,7 +67,7 @@ export function getAssetColumns(handleClickAction: (clickedRow: any) =>void): Gr
             flex: 1,
         },        
         {
-            field: "currentLocatiion",
+            field: "currentLocation",
             headerName: "Current Location",
             flex: 1,
         },        
@@ -80,7 +80,7 @@ export function getAssetColumns(handleClickAction: (clickedRow: any) =>void): Gr
             renderCell:(params) =>{
                 let dateTime;
                 try{
-                    dateTime = moment(params.row.lastSeen?.toISOString()).format('DD/MM/YY, HH:mm:ss');
+                    dateTime = moment(params.row.lastSeen?.toISOString()).format('DD/MM/YY HH:mm:ss');
                 }
                 catch(reject){
                     return null;

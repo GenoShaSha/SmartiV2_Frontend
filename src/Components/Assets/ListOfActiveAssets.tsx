@@ -30,25 +30,30 @@ import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 
 
   const userData = [
-    { id: 1, assetID: 'BC-00123', typeID:'PHA-0001', status: "Occupied",  currentLocation: "Warehouse"},
-    { id: 2, assetID: 'BC-00321', status:'PHA-0002', currentLocation: "Warehouse"},
-    { id: 3, assetID: 'BC-00213', status: 'PHA-0003', currentLocation: "Warehouse"},
-    { id: 5, assetID: 'BC-00541', status:'PHA-0004', currentLocation: "Warehouse"},
-    { id: 6, assetID: 'BC-00765', status: 'PHA-0005', currentLocation: "Warehouse"},
-    { id: 7, assetID: 'BC-00564', status: 'PHA-0006', currentLocation: "T-Hofke Bloemenwinkle"},
-    { id: 8, assetID: 'BC-00731', status: 'PHA-0007', currentLocation: "T-Hofke Bloemenwinkle"},
-   { id: 9, assetID: 'BC-00912', status: 'PHA-0009', currentLocation: "T-Hofke Bloemenwinkle"},
+    { id: 1, assetID: 'BC-00123', tagID:'PHA-0001', assetType:'BUCKET', assetStatus: "Occupied",assetAge:new Date('12/03/2024'), client:'Mr.Flexx', comitteeName:'Shanessa', previousLocation:'Washing', currentLocation: 'Warehouse', lastSeen: new Date('20/03/2024 05:30:20')},
+    { id: 2, assetID: 'BC-00321', tagID:'PHA-0002',assetType:'BUCKET', assetStatus:"Occupied", assetAge:new Date('12/03/2024'),client:'Mr.Flexx',comitteeName:'Shanessa', previousLocation:'Washing',currentLocation: 'Warehouse', lastSeen: new Date('20/03/2024 05:30:20')},
+    { id: 3, assetID: 'BC-00213', tagID:'PHA-0003', assetType:'BUCKET', assetStatus: "Occupied", assetAge:new Date('12/03/2024'), client:'Mr.Flexx',comitteeName:'Shanessa', previousLocation:'Washing',currentLocation: 'Warehouse', lastSeen:new Date('20/03/2024 05:30:20')},
+    { id: 5, assetID: 'BC-00541', tagID:'PHA-0004',assetType:'BUCKET', assetStatus:"Occupied", assetAge:new Date('12/03/2024'), client:'Mr.Flexx',comitteeName:'Shanessa', previousLocation:'Washing',currentLocation: 'Warehouse', lastSeen: new Date('20/03/2024 05:30:20')},
+    { id: 6, assetID: 'BC-00765', tagID:'PHA-0005',assetType:'BUCKET', assetStatus: "Occupied", assetAge:new Date('12/03/2024'), client:'Mr.Flexx',comitteeName:'Shanessa', previousLocation:'Washing',currentLocation: 'Warehouse', lastSeen: new Date('20/03/2024 05:30:20')},
+    { id: 8, assetID: 'BC-00731', tagID:'PHA-0007', assetType:'BUCKET', assetStatus: "Occupied", assetAge:new Date('12/03/2024'),client:'Mr.Flexx', comitteeName:'Shanessa', previousLocation:'Packaging',currentLocation: 'T-Hofke Bloemenwinkle', lastSeen: new Date('20/03/2024 05:30:20')},
   ];
 
   
   const rows = userData.map((user) => ({
     id: user.id,
     assetID: user.assetID,
-    status: user.status,
+    tagID: user.tagID,
+    assetType: user.assetType,
+    assetStatus: user.assetStatus,
+    assetAge:user.assetAge,
+    client: user.client,
+    comitteeName:user.comitteeName,
+    previousLocation:user.previousLocation,
     currentLocation: user.currentLocation,
+    lastSeen: new Date(user.lastSeen),
   }));
 
-const CurrentLocation = [
+const Location = [
     {
       label: " ",
       value: " ",
@@ -77,18 +82,18 @@ const CurrentLocation = [
     const [fileterActionsValue, setFileterActionsValue] = React.useState([]);
     const [dateRangeValue, setDateRangeValue] = React.useState<[Dayjs | null, Dayjs | null]>([null, null]);
     const [colsVisibilityModel, setColsVisibilityModel] = React.useState({
-      assetID: false,
-      tagID: false,
-      assetType: false,
-      assetStatus: false,
-      assetAge: false,
-      previousLocation: false,
-      currentLocation: false,
+      assetID: true,
+      tagID: true,
+      assetType: true,
+      assetStatus: true,
+      assetAge: true,
+      previousLocation: true,
+      currentLocation: true,
       lastSeen: false,
-      temperature: false,
+      assetTemperature: false,
     } as any);
     const [createOrderModalOpen, setCreateOrderModalOpen] = React.useState<boolean>(false);
-    const [selectedTab, setSelectedTab] = React.useState<string>("active_orders");
+    const [selectedTab, setSelectedTab] = React.useState<string>("activeAssets");
     const [selectedRows, setSelectedRows] = React.useState<Assets[]>([]);
     const [userCanUpsertOrders, setUserCanUpsertOrders] = React.useState<boolean>(false);
     const [searchValue, setSearchValue] = React.useState<string>("");
@@ -185,7 +190,7 @@ const CurrentLocation = [
             </Stack>
             <TabContext value={selectedTab}>
               <TabList centered={true} onChange={(e: any, tabValue: string) => setSelectedTab(tabValue)}>
-                <Tab value={"active-assets"} label={"Active Assets"} />
+                <Tab value={"activeAssets"} label={"Active Assets"} />
                 <Tab value={"asset-history"} label="History of assets" />
               </TabList>
             </TabContext>
@@ -196,7 +201,7 @@ const CurrentLocation = [
                 {/* {user.clientId === "syKxcXfrvV5N0WCwCEL8" && (
                   <Selector width={200} label="Filter by customer" selectedValue={fileterCustomerValue} setSelectedValue={setFileterCustomerValue} options={customers} multiple={true} />
                 )} */}
-                <Selector width={200} label="Filter by actions" selectedValue={fileterActionsValue} setSelectedValue={setFileterActionsValue} options={CurrentLocation} multiple={true} />
+                <Selector width={200} label="Filter by actions" selectedValue={fileterActionsValue} setSelectedValue={setFileterActionsValue} options={Location} multiple={true} />
                 <Selector width={200} label="Filter by status" selectedValue={fileterStatusValue} setSelectedValue={setFileterStatusValue} options={STATUSOPTIONS} multiple={true} />
                 <DateRangePickerComponent value={dateRangeValue} dateRangePickerValueChanged={dateRangePickerValueChanged} />
                 <LoadingButton loading={false} variant="outlined" color="primary">
@@ -235,7 +240,7 @@ const CurrentLocation = [
                 slotProps={{
                   toolbar: { ...ToolbarProps, selectedTab },
                 }}
-                rows={userData}
+                rows={rows}
                 loading={userData.length === 0}               
                 columns={columns.map((col) => {
                   return {
