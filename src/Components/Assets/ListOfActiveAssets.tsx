@@ -25,33 +25,27 @@ import { selectCustomerSettingsState } from "../../Features/customerSettingSlice
 // import CustomerService from "../../services/CustomerService";
 // import { useOrdersService } from "../../services/OrdersService";
 // import Taskdialog from "./TaskPopup";
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 
 
-const columns = [
-    { field: 'id', headerName: 'ID', width: 100 },
-    { field: 'Asset ID', headerName: 'Asset ID', width: 200 },
-    { field: 'status', headerName: 'Status', width: 150 },
-    { field: 'Current Location', headerName: 'Current Location', width: 200 },
-  ];
 
   const userData = [
-    { id: 1, 'Asset ID': 'BC-00123', status: "Occupied",  'Current Location': "Warehouse"},
-    { id: 2, 'Asset ID': 'BC-00321', status: "Occupied", 'Current Location': "Warehouse"},
-    { id: 3, 'Asset ID': 'BC-00213', status: "Occupied", 'Current Location': "Warehouse"},
-    { id: 4, 'Asset ID': 'BC-00145', status: "Occupied", 'Current Location': "Warehouse"},
-    { id: 5, 'Asset ID': 'BC-00541', status: "Occupied", 'Current Location': "Warehouse"},
-    { id: 6, 'Asset ID': 'BC-00765', status: "Occupied", 'Current Location': "Warehouse"},
-    { id: 7, 'Asset ID': 'BC-00564', status: "Occupied", 'Current Location': "T-Hofke Bloemenwinkle"},
-    { id: 8, 'Asset ID': 'BC-00731', status: "Occupied", 'Current Location': "T-Hofke Bloemenwinkle"},
-   { id: 9, 'Asset ID': 'BC-00912', status: "Occupied", 'Current Location': "T-Hofke Bloemenwinkle"},
+    { id: 1, assetID: 'BC-00123', status: "Occupied",  currentLocation: "Warehouse"},
+    { id: 2, assetID: 'BC-00321', status: "Occupied", currentLocation: "Warehouse"},
+    { id: 3, assetID: 'BC-00213', status: "Occupied", currentLocation: "Warehouse"},
+    { id: 5, assetID: 'BC-00541', status: "Occupied", currentLocation: "Warehouse"},
+    { id: 6, assetID: 'BC-00765', status: "Occupied", currentLocation: "Warehouse"},
+    { id: 7, assetID: 'BC-00564', status: "Occupied", currentLocation: "T-Hofke Bloemenwinkle"},
+    { id: 8, assetID: 'BC-00731', status: "Occupied", currentLocation: "T-Hofke Bloemenwinkle"},
+   { id: 9, assetID: 'BC-00912', status: "Occupied", currentLocation: "T-Hofke Bloemenwinkle"},
   ];
 
   
   const rows = userData.map((user) => ({
     id: user.id,
-    'Asset ID': user['Asset ID'],
+    assetID: user.assetID,
     status: user.status,
-    'Current Location': user['Current Location'],
+    currentLocation: user.currentLocation,
   }));
 
 const CurrentLocation = [
@@ -232,17 +226,17 @@ const CurrentLocation = [
                 </LoadingButton>
               </Stack>
               <br />
-              <DataGridPro
+              {/* <DataGridPro
                 rows={rows}
                 columns={columns}
-                loading={userData.length === 0}
+                loading={userData.length === 0} 
                 rowHeight={38}
                 checkboxSelection
                 disableRowSelectionOnClick
-                />
+                /> */}
               {/* data grid */}
               {/* <Box sx={{ height: "100%" }}> */}
-              {/* <StyledDataGrid
+              <StyledDataGrid
                 sx={{
                   "& .MuiDataGrid-columnHeaderTitle": {
                     textOverflow: "clip",
@@ -293,7 +287,7 @@ const CurrentLocation = [
                 columnVisibilityModel={colsVisibilityModel}
                 onColumnVisibilityModelChange={(model: GridColumnVisibilityModel) => columnVisibilityModelChanged(model)}
                 onProcessRowUpdateError={(params: any) => console.log("error", params)}
-              /> */}
+              />
             </Paper>
           </Box>
         </>

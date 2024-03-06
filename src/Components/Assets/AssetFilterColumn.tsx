@@ -50,7 +50,17 @@ export function getAssetColumns(handleClickAction: (clickedRow: any) =>void): Gr
                     </Tooltip>
                 );
             }
-        },        
+        },    
+        {
+            field: "client",
+            headerName: "Client",
+            flex: 1,
+        }, 
+        {
+            field: "comittee-name",
+            headerName: "Comittee Name",
+            flex: 1,
+        },    
         {
             field: "previousLocation",
             headerName: "Previous Location",
