@@ -27,8 +27,8 @@ import { selectCustomerSettingsState } from "../../Features/customerSettingSlice
 // import Taskdialog from "./TaskPopup";
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
-
-
+import ListOfAssetsHistory from "./AssetsHistory/ListOfAssetsHistory";
+import TabPanel from '@mui/lab/TabPanel';
 
   const userData = [
     { id: 1, assetID: 'BC-00123', tagID:'PHA-0001', assetType:'BUCKET', assetStatus: "Occupied",assetAge:new Date('12/03/2024'), client:'Mr.Flexx', comitteeName:'Shanessa', previousLocation:'Washing', currentLocation: 'Warehouse', lastSeen: new Date('20/03/2024 05:30:20'), assetTemperature:'20 C'},
@@ -186,9 +186,8 @@ const Location = [
     
   const handleRowClick = (params: GridRowParams) => {
     // Navigate to another page when a row is clicked
-    const id = params.id as number; // Assuming 'id' is a number
-    navigate(`/AssetHistory/${id}`);
-    console.log(navigate(`/AssetHistory/${id}`));
+    const id = params.row.assetID as string; // Assuming 'id' is a number
+    navigate(`/AssetsHistory/${id}`);
   };
 
       return (
@@ -205,10 +204,10 @@ const Location = [
             <TabContext value={selectedTab}>
               <TabList centered={true} onChange={(e: any, tabValue: string) => setSelectedTab(tabValue)}>
                 <Tab value={"activeAssets"} label={"Active Assets"} />
-                <Tab value={"asset-history"} label="History of assets" />
+                <Tab value={"historyOfAssets"} label={"History of Assets"} />
               </TabList>
-            </TabContext>
-            <Paper sx={{ height: "100%", width: "94.5vw", p: 1, minHeight: "40rem", mb: 1 }}>
+              <TabPanel value="activeAssets">
+              <Paper sx={{ height: "100%", width: "94.5vw", p: 1, minHeight: "40rem", mb: 1 }}>
               {/* controls */}
               <Stack direction="row" spacing={2} mt={2}>
                 <Search setSearchInput={() => {}} placeHolderText="Search by Asset Id" inputChanged={(searchTxt) => setSearchValue(searchTxt)} />
@@ -219,7 +218,7 @@ const Location = [
                 <Selector width={200} label="Filter by status" selectedValue={fileterStatusValue} setSelectedValue={setFileterStatusValue} options={STATUSOPTIONS} multiple={true} />
                 <DateRangePickerComponent value={dateRangeValue} dateRangePickerValueChanged={dateRangePickerValueChanged} />
                 <LoadingButton loading={false} variant="outlined" color="primary">
-                  Filter orders
+                  Filter Assets
                 </LoadingButton>
               </Stack>
               <br />
@@ -274,7 +273,7 @@ const Location = [
                     right: ["documents", "actions", "status"],
                   },
                 }}
-//only happen when the service is done!!!!!!!!
+                //only happen when the service is done!!!!!!!!
                 // onRowSelectionModelChange={(ids) => {
                 //   handleRowSelection(ids as Array<String>);
                 // }}
@@ -285,6 +284,11 @@ const Location = [
                 onProcessRowUpdateError={(params: any) => console.log("error", params)}
               />
             </Paper>
+              </TabPanel>
+              <TabPanel value={"historyOfAssets"}>
+                <ListOfAssetsHistory/> 
+              </TabPanel>
+            </TabContext>
           </Box>
         </>
       );

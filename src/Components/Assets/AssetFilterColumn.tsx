@@ -76,7 +76,7 @@ export function getAssetColumns(handleClickAction: (clickedRow: any) =>void): Gr
             headerName: "Last Seen",
             flex: 1,
             minWidth: 100,
-            type: 'dateTime',
+            type: 'date',
             renderCell:(params) =>{
                 let dateTime;
                 try{

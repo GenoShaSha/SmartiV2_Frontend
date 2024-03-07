@@ -6,8 +6,7 @@ import { ToastContainer } from "react-toastify";
 import LoadingScreen from "./Components/LoadingScreen/Loadingscreen";
 import Layout from "./Layout/MainLayout";
 import ListOfActiveAssets from "./Components/Assets/ListOfActiveAssets";
-import ListOfAssetsHistory from "./Components/Assets/AssetsHistory/ListOfAssetsHistory";
-
+import ListOfSpecificAssetsHistory from "./Components/Assets/AssetsHistory/ListOfSpecificAssetHistory";
 
 function App() {
   // STATES
@@ -38,7 +37,7 @@ function App() {
           <Routes>
             <Route path="/" element={<></>} />
             <Route path="/Assets" element={<ListOfActiveAssets/>} />     
-            <Route path="/AssetsHistory" element={<ListOfAssetsHistory/>} />            
+            <Route path="/AssetsHistory/:assetId" element={<ListOfSpecificAssetsHistory/>} />            
             <Route path="/UserManagement" element={<></>} />
 
           </Routes>

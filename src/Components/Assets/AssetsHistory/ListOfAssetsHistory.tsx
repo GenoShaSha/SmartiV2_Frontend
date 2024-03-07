@@ -1,58 +1,55 @@
-import { Box, Paper, Stack, Tab, Typography } from "@mui/material";
-import { DataGridProProps, GridCellParams, GridColumnVisibilityModel } from "@mui/x-data-grid-pro";
+import { Box, Paper, Stack, Tab } from "@mui/material";
+import { GridCellParams, GridColumnVisibilityModel } from "@mui/x-data-grid-pro";
 import Search from "../../Search/Search";
 import DateRangePickerComponent from "../../DateRangePicker/DateRangePicker";
-import React, { useEffect } from "react";
+import React from "react";
 import Selector from "../../Selector/Selector";
 import { Dayjs } from "dayjs";
 import { LoadingButton } from "@mui/lab";
-import { UploadOutlined } from "@mui/icons-material";
-import { getAssetColumns } from "../AssetFilterColumn";
-// import ImportOrderModal from "./ImportOrderModal";
+import { getAssetHistoryColumns } from "./AssetsHistoryFilterColumn";
 import { StyledDataGrid } from "../../StyledDataGridPro/StyledDataGridPro";
-import { selectUserState } from "../../../Features/userSlice";
 import { Assets } from "../../../Models/Assets";
-import { useSelector } from "react-redux";
-// import { OrderDetailPanelContent } from "./OrderDetailsPanelContent";
 import { GridRowParams } from "@mui/x-data-grid-pro";
-import { dismissToast, showErrorToast, showLoadingToast, showSuccessToast } from "../../../Utils/Toast";
-import { TabContext, TabList } from "@mui/lab";
 import CustomToolbar from "../../CustomDataGridToolbar/CustomDataGridToolbar";
-//This is for the firebase
-// import FileUtils from "../../Utils/FileUtils";
+import { useNavigate } from 'react-router-dom';
+
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { selectCustomerSettingsState } from "../../../Features/customerSettingSlice";
+import { dismissToast, showErrorToast, showLoadingToast, showSuccessToast } from "../../../Utils/Toast";
+import { useSelector } from "react-redux";
+import { selectUserState } from "../../../Features/userSlice";
+import { UploadOutlined } from "@mui/icons-material";
+
 // both of this currently is not use.
 // import CustomerService from "../../services/CustomerService";
 // import { useOrdersService } from "../../services/OrdersService";
-// import Taskdialog from "./TaskPopup";
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { useNavigate } from 'react-router-dom';
+// import Taskdialog from "./TaskPopup";// import ImportOrderModal from "./ImportOrderModal";
+//This is for the firebase
+// import FileUtils from "../../Utils/FileUtils";
+// import { OrderDetailPanelContent } from "./OrderDetailsPanelContent";
+
 
 
 
   const userData = [
-    { id: 1, transcationID:'', assetID: 'BC-00123', tagID:'PHA-0001', assetType:'BUCKET', assetStatus: "Occupied",assetAge:new Date('12/03/2024'), client:'Mr.Flexx', comitteeName:'Shanessa', previousLocation:'Washing', currentLocation: 'Warehouse', lastSeen: new Date('20/03/2024 05:30:20'), assetTemperature:'20 C'},
-    { id: 2, transcationID:'', assetID: 'BC-00321', tagID:'PHA-0002',assetType:'BUCKET', assetStatus:"Occupied", assetAge:new Date('12/03/2024'),client:'Mr.Flexx',comitteeName:'Shanessa', previousLocation:'Washing',currentLocation: 'Warehouse', lastSeen: new Date('20/03/2024 05:30:20'),  assetTemperature:'20 C'},
-    { id: 3, transcationID:'',assetID: 'BC-00213', tagID:'PHA-0003', assetType:'BUCKET', assetStatus: "Occupied", assetAge:new Date('12/03/2024'), client:'Mr.Flexx',comitteeName:'Shanessa', previousLocation:'Washing',currentLocation: 'Warehouse', lastSeen:new Date('20/03/2024 05:30:20'),  assetTemperature:'20 C'},
-    { id: 5, transcationID:'', assetID: 'BC-00541', tagID:'PHA-0004',assetType:'BUCKET', assetStatus:"Occupied", assetAge:new Date('12/03/2024'), client:'Mr.Flexx',comitteeName:'Shanessa', previousLocation:'Washing',currentLocation: 'Warehouse', lastSeen: new Date('20/03/2024 05:30:20'), assetTemperature:'20 C'},
-    { id: 6, transcationID:'', assetID: 'BC-00765', tagID:'PHA-0005',assetType:'BUCKET', assetStatus: "Occupied", assetAge:new Date('12/03/2024'), client:'Mr.Flexx',comitteeName:'Shanessa', previousLocation:'Washing',currentLocation: 'Warehouse', lastSeen: new Date('20/03/2024 05:30:20'),  assetTemperature:'20 C'},
-    { id: 8, transcationID:'', assetID: 'BC-00731', tagID:'PHA-0007', assetType:'BUCKET', assetStatus: "Occupied", assetAge:new Date('12/03/2024'),client:'Mr.Flexx', comitteeName:'Shanessa', previousLocation:'Packaging',currentLocation: 'T-Hofke Bloemenwinkle', lastSeen: new Date('20/03/2024 05:30:20'),  assetTemperature:'20 C'},
+    { id: 1, transcationID:'', assetID: 'BC-00123', tagID:'PHA-0001', from:'T-Hofke Bloemenwinkle', to: "Washing", duration:new Date('12/03/2024'), status:'Delivered'},
+    { id: 2, transcationID:'', assetID: 'BC-00321', tagID:'PHA-0002', from:'T-Hofke Bloemenwinkle', to: "Washing", duration:new Date('12/03/2024'), status:'Delivered'},
+    { id: 3, transcationID:'', assetID: 'BC-00213', tagID:'PHA-0003', from:'T-Hofke Bloemenwinkle', to: "Washing", duration:new Date('12/03/2024'), status:'Delivered'},
+    { id: 5, transcationID:'', assetID: 'BC-00541', tagID:'PHA-0004', from:'T-Hofke Bloemenwinkle', to: "Washing", duration:new Date('12/03/2024'), status:'Delivered'},
+    { id: 6, transcationID:'', assetID: 'BC-00765', tagID:'PHA-0005', from:'T-Hofke Bloemenwinkle', to: "Washing", duration:new Date('12/03/2024'), status:'Delivered'},
+    { id: 8, transcationID:'', assetID: 'BC-00731', tagID:'PHA-0007', from:'Warehouse', to: "Packaging", duration:new Date('12/03/2024'), status:'Delivered'},
   ];
 
   
   const rows = userData.map((user) => ({
     id: user.id,
+    transactionID: user.transcationID,
     assetID: user.assetID,
     tagID: user.tagID,
-    assetType: user.assetType,
-    assetStatus: user.assetStatus,
-    assetAge:user.assetAge,
-    client: user.client,
-    comitteeName:user.comitteeName,
-    previousLocation:user.previousLocation,
-    currentLocation: user.currentLocation,
-    lastSeen: new Date(user.lastSeen),
-    assetTemperature: user.assetTemperature,
+    from: user.from,
+    to: user.to,
+    duration: new Date(user.duration),
+    status: user.status,
   }));
 
 
@@ -72,7 +69,7 @@ const Location = [
 
   ] as any;
 
-  const ListOfActiveAssets = () =>{
+  const ListOfAssetsHistory = () =>{
     const [ToolbarProps, setToolBarProps] = React.useState({
         viewGridToolbarExport: true,
         viewGridToolbarColumnsButton: true,
@@ -81,20 +78,18 @@ const Location = [
         viewGridToolbarFilterButton: true,
         disableMoreActions: true,
     });
-    const [fileterCustomerValue, setFileterCustomerValue] = React.useState([]);
+    // const [fileterCustomerValue, setFileterCustomerValue] = React.useState([]);
     const [fileterStatusValue, setFileterStatusValue] = React.useState([]);
     const [fileterActionsValue, setFileterActionsValue] = React.useState([]);
     const [dateRangeValue, setDateRangeValue] = React.useState<[Dayjs | null, Dayjs | null]>([null, null]);
     const [colsVisibilityModel, setColsVisibilityModel] = React.useState({
-      assetID: true,
-      tagID: true,
-      assetType: true,
-      assetStatus: true,
-      assetAge: true,
-      previousLocation: true,
-      currentLocation: true,
-      lastSeen: false,
-      assetTemperature: false,
+        transactionID: true,
+        assetID: true,
+        tagID: true,
+        from: true,
+        to: true,
+        duration: true,
+        description: true,
     } as any);
     const [createOrderModalOpen, setCreateOrderModalOpen] = React.useState<boolean>(false);
     const [selectedTab, setSelectedTab] = React.useState<string>("activeAssets");
@@ -102,18 +97,14 @@ const Location = [
     const [userCanUpsertOrders, setUserCanUpsertOrders] = React.useState<boolean>(false);
     const [searchValue, setSearchValue] = React.useState<string>("");
     const [customers, setCustomers] = React.useState<any[]>([]);
-    
     const [taskDialog, setTaskDialog] = React.useState<any>({ open: false, order: null });
- //Only use when the service is done 
-    // const { orders, setOrders, loading, setLoading, updateOrder, uploadFiles, deleteDocFromShipment, filterOrders, filteredOrders } = useOrdersService(dateRangeValue);
-  
-    //   constants
-    const columns = getAssetColumns(handleACtionsClick);
-//only use it when the service and model is ready
-    // const { user } = useSelector(selectUserState);
-    // const customerSettings = useSelector(selectCustomerSettingsState);
+    const columns = getAssetHistoryColumns();
+    // const { orders, setOrders, loading, setLoading, updateOrder, uploadFiles, deleteDocFromShipment, filterOrders, filteredOrders } = useOrdersService(dateRangeValue);  //Only use when the service is done 
+    // const { user } = useSelector(selectUserState); //only use it when the service and model is ready
+    // const customerSettings = useSelector(selectCustomerSettingsState);  //only use it when the service and model is ready
 
-// Only use it when the service is done
+
+    // Only use it when the service is done
     // useEffect(() => {
     //     (async () => {
     //       if (user.clientId == "import.meta.env.VITE_FIREBASE_RITMEESTER_ID") {
@@ -122,7 +113,8 @@ const Location = [
     //       }
     //     })();
     //   }, [user]);
-//only use it when the service is ready
+
+    // only use it when the service is ready
     // user can create orders
     //   useEffect(() => {
     //     if (!user) return;
@@ -138,19 +130,8 @@ const Location = [
     //       }
     //     }
     //   }, [user]);
-      React.useEffect(() => {
-        selectedRows.length > 0
-          ? setToolBarProps((prevState: any) => ({
-              ...prevState,
-              disableMoreActions: false,
-            }))
-          : setToolBarProps((prevState: any) => ({
-              ...prevState,
-              disableMoreActions: true,
-            }));
-      }, [selectedRows]);
 
-//only use it when the service is done    
+    // only use it when the service is done    
     //   React.useEffect(() => {
     //      filterOrders(searchValue, fileterCustomerValue, fileterActionsValue, fileterStatusValue);    
     //   },[orders,searchValue, dateRangeValue, fileterActionsValue, fileterCustomerValue, fileterStatusValue]);
@@ -162,52 +143,58 @@ const Location = [
     //     }
     //   }, []);
     
-      function handleACtionsClick(row: Assets) {
-        setTaskDialog({ open: true, order: row });
-      }
-//Only hppen after the service is done
+    // Only hppen after the service is done
     //   function handleRowSelection(selectedRowsId: Array<String>) {
     //     const selectedRows = orders.filter((d: any) => selectedRowsId.includes(d.fbId));
     //     setSelectedRows(selectedRows);
     //   }
-      const dateRangePickerValueChanged = (value: [Dayjs | null, Dayjs | null]) => {
-        setDateRangeValue([value[0], value[1]]);
-      };
-      //   columnVisibilityModelChanged
-      const columnVisibilityModelChanged = (model: GridColumnVisibilityModel) => {
-        setColsVisibilityModel(model);
-        localStorage.setItem("assets-columns", JSON.stringify(model));
-      };
     //   const downloadFile = (filePath: any) => {
     //     FileUtils.downloadFile(filePath);
     //   };
+
+    React.useEffect(() => {
+    selectedRows.length > 0
+        ? setToolBarProps((prevState: any) => ({
+            ...prevState,
+            disableMoreActions: false,
+        }))
+        : setToolBarProps((prevState: any) => ({
+            ...prevState,
+            disableMoreActions: true,
+        }));
+    }, [selectedRows]);
+
+    function handleACtionsClick(row: Assets) {
+    setTaskDialog({ open: true, order: row });
+    }
+
+    const dateRangePickerValueChanged = (value: [Dayjs | null, Dayjs | null]) => {
+    setDateRangeValue([value[0], value[1]]);
+    };
+    
+    const columnVisibilityModelChanged = (model: GridColumnVisibilityModel) => {
+    setColsVisibilityModel(model);
+    localStorage.setItem("assets-columns", JSON.stringify(model));
+    };
+
     const navigate = useNavigate();
 
-    
-  const handleRowClick = (params: GridRowParams) => {
-    // Navigate to another page when a row is clicked
-    const id = params.id as number; // Assuming 'id' is a number
-    navigate(`/AssetHistory/${id}`);
-    console.log(navigate(`/AssetHistory/${id}`));
-  };
+    const handleRowClick = (params: GridRowParams) => {
+      // Navigate to another page when a row is clicked
+      const id = params.id as number; // Assuming 'id' is a number
+      navigate(`/AssetHistory/${id}`);
+      console.log(navigate(`/AssetHistory/${id}`));
+    };  
+
 
       return (
         <>
           {/* <Taskdialog taskDialog={taskDialog} setTaskDialog={setTaskDialog} /> */}
           {/* <ImportOrderModal open={createOrderModalOpen} setOpen={setCreateOrderModalOpen} /> */}
-          <Box sx={{ p: 1, height: "100%", width: "98%", mt: 10, minHeight: "30rem", overflow: "hidden" }}>
+          <Box sx={{ p: 1, height: "100%", width: "98%", mt: -5.5, minHeight: "30rem", overflow: "hidden" }}>
             <Stack direction="row" spacing={2} mt={2}>
-              {/* <Typography fontWeight={400} color={"#111212b6"} variant="h6" align="left">
-                Active Assets
-              </Typography> */}
-              <br />
+            <br />
             </Stack>
-            <TabContext value={selectedTab}>
-              <TabList centered={true} onChange={(e: any, tabValue: string) => setSelectedTab(tabValue)}>
-                <Tab value={"activeAssets"} label={"Active Assets"} />
-                <Tab value={"asset-history"} label="History of assets" />
-              </TabList>
-            </TabContext>
             <Paper sx={{ height: "100%", width: "94.5vw", p: 1, minHeight: "40rem", mb: 1 }}>
               {/* controls */}
               <Stack direction="row" spacing={2} mt={2}>
@@ -219,20 +206,10 @@ const Location = [
                 <Selector width={200} label="Filter by status" selectedValue={fileterStatusValue} setSelectedValue={setFileterStatusValue} options={STATUSOPTIONS} multiple={true} />
                 <DateRangePickerComponent value={dateRangeValue} dateRangePickerValueChanged={dateRangePickerValueChanged} />
                 <LoadingButton loading={false} variant="outlined" color="primary">
-                  Filter orders
+                  Filter Asset
                 </LoadingButton>
               </Stack>
               <br />
-              {/* <DataGridPro
-                rows={rows}
-                columns={columns}
-                loading={userData.length === 0} 
-                rowHeight={38}
-                checkboxSelection
-                disableRowSelectionOnClick
-                /> */}
-              {/* data grid */}
-              {/* <Box sx={{ height: "100%" }}> */}
               <StyledDataGrid
                 sx={{
                   "& .MuiDataGrid-columnHeaderTitle": {
@@ -247,7 +224,6 @@ const Location = [
                   width: "100%",
                   overflowX: "auto",
                 }}
-                // sx={{ flex: 1 }}
                 slots={{
                   toolbar: CustomToolbar,
                 }}
@@ -274,11 +250,11 @@ const Location = [
                     right: ["documents", "actions", "status"],
                   },
                 }}
-//only happen when the service is done!!!!!!!!
+                //only happen when the service is done!!!!!!!!
                 // onRowSelectionModelChange={(ids) => {
                 //   handleRowSelection(ids as Array<String>);
                 // }}
-                // checkboxSelection={user.role == "viewer" ? false : true}
+                checkboxSelection
                 disableRowSelectionOnClick
                 columnVisibilityModel={colsVisibilityModel}
                 onColumnVisibilityModelChange={(model: GridColumnVisibilityModel) => columnVisibilityModelChanged(model)}
@@ -290,5 +266,5 @@ const Location = [
       );
     };
 
-  export default ListOfActiveAssets;
+  export default ListOfAssetsHistory;
   

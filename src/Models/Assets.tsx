@@ -20,6 +20,7 @@ constructor(
     this.assetType =assetType;
     this.tagId = tagId;
 }
+
 }
 
 

@@ -19,6 +19,7 @@ const Layout = ({ children }: any) => {
         pathname == "/Devices"||
         pathname == "/Orders"||
         pathname == "/UserManagement"||
+        pathname == '/AssetsHistory/:assetId'||
         pathname == `/Customer/${pathname.split("/")[2]}`? (
           loggedIn && <AppBarWithDrawer/>
         ) : (
