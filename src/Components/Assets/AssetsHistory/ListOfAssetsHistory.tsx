@@ -1,26 +1,26 @@
 import { Box, Paper, Stack, Tab, Typography } from "@mui/material";
 import { DataGridProProps, GridCellParams, GridColumnVisibilityModel } from "@mui/x-data-grid-pro";
-import Search from "../Search/Search";
-import DateRangePickerComponent from "../DateRangePicker/DateRangePicker";
+import Search from "../../Search/Search";
+import DateRangePickerComponent from "../../DateRangePicker/DateRangePicker";
 import React, { useEffect } from "react";
-import Selector from "../Selector/Selector";
+import Selector from "../../Selector/Selector";
 import { Dayjs } from "dayjs";
 import { LoadingButton } from "@mui/lab";
 import { UploadOutlined } from "@mui/icons-material";
-import { getAssetColumns } from "./AssetFilterColumn";
+import { getAssetColumns } from "../AssetFilterColumn";
 // import ImportOrderModal from "./ImportOrderModal";
-import { StyledDataGrid } from "../StyledDataGridPro/StyledDataGridPro";
-import { selectUserState } from "../../Features/userSlice";
-import { Assets } from "../../Models/Assets";
+import { StyledDataGrid } from "../../StyledDataGridPro/StyledDataGridPro";
+import { selectUserState } from "../../../Features/userSlice";
+import { Assets } from "../../../Models/Assets";
 import { useSelector } from "react-redux";
 // import { OrderDetailPanelContent } from "./OrderDetailsPanelContent";
 import { GridRowParams } from "@mui/x-data-grid-pro";
-import { dismissToast, showErrorToast, showLoadingToast, showSuccessToast } from "../../Utils/Toast";
+import { dismissToast, showErrorToast, showLoadingToast, showSuccessToast } from "../../../Utils/Toast";
 import { TabContext, TabList } from "@mui/lab";
-import CustomToolbar from "../CustomDataGridToolbar/CustomDataGridToolbar";
+import CustomToolbar from "../../CustomDataGridToolbar/CustomDataGridToolbar";
 //This is for the firebase
 // import FileUtils from "../../Utils/FileUtils";
-import { selectCustomerSettingsState } from "../../Features/customerSettingSlice";
+import { selectCustomerSettingsState } from "../../../Features/customerSettingSlice";
 // both of this currently is not use.
 // import CustomerService from "../../services/CustomerService";
 // import { useOrdersService } from "../../services/OrdersService";
@@ -31,12 +31,12 @@ import { useNavigate } from 'react-router-dom';
 
 
   const userData = [
-    { id: 1, assetID: 'BC-00123', tagID:'PHA-0001', assetType:'BUCKET', assetStatus: "Occupied",assetAge:new Date('12/03/2024'), client:'Mr.Flexx', comitteeName:'Shanessa', previousLocation:'Washing', currentLocation: 'Warehouse', lastSeen: new Date('20/03/2024 05:30:20'), assetTemperature:'20 C'},
-    { id: 2, assetID: 'BC-00321', tagID:'PHA-0002',assetType:'BUCKET', assetStatus:"Occupied", assetAge:new Date('12/03/2024'),client:'Mr.Flexx',comitteeName:'Shanessa', previousLocation:'Washing',currentLocation: 'Warehouse', lastSeen: new Date('20/03/2024 05:30:20'),  assetTemperature:'20 C'},
-    { id: 3, assetID: 'BC-00213', tagID:'PHA-0003', assetType:'BUCKET', assetStatus: "Occupied", assetAge:new Date('12/03/2024'), client:'Mr.Flexx',comitteeName:'Shanessa', previousLocation:'Washing',currentLocation: 'Warehouse', lastSeen:new Date('20/03/2024 05:30:20'),  assetTemperature:'20 C'},
-    { id: 5, assetID: 'BC-00541', tagID:'PHA-0004',assetType:'BUCKET', assetStatus:"Occupied", assetAge:new Date('12/03/2024'), client:'Mr.Flexx',comitteeName:'Shanessa', previousLocation:'Washing',currentLocation: 'Warehouse', lastSeen: new Date('20/03/2024 05:30:20'), assetTemperature:'20 C'},
-    { id: 6, assetID: 'BC-00765', tagID:'PHA-0005',assetType:'BUCKET', assetStatus: "Occupied", assetAge:new Date('12/03/2024'), client:'Mr.Flexx',comitteeName:'Shanessa', previousLocation:'Washing',currentLocation: 'Warehouse', lastSeen: new Date('20/03/2024 05:30:20'),  assetTemperature:'20 C'},
-    { id: 8, assetID: 'BC-00731', tagID:'PHA-0007', assetType:'BUCKET', assetStatus: "Occupied", assetAge:new Date('12/03/2024'),client:'Mr.Flexx', comitteeName:'Shanessa', previousLocation:'Packaging',currentLocation: 'T-Hofke Bloemenwinkle', lastSeen: new Date('20/03/2024 05:30:20'),  assetTemperature:'20 C'},
+    { id: 1, transcationID:'', assetID: 'BC-00123', tagID:'PHA-0001', assetType:'BUCKET', assetStatus: "Occupied",assetAge:new Date('12/03/2024'), client:'Mr.Flexx', comitteeName:'Shanessa', previousLocation:'Washing', currentLocation: 'Warehouse', lastSeen: new Date('20/03/2024 05:30:20'), assetTemperature:'20 C'},
+    { id: 2, transcationID:'', assetID: 'BC-00321', tagID:'PHA-0002',assetType:'BUCKET', assetStatus:"Occupied", assetAge:new Date('12/03/2024'),client:'Mr.Flexx',comitteeName:'Shanessa', previousLocation:'Washing',currentLocation: 'Warehouse', lastSeen: new Date('20/03/2024 05:30:20'),  assetTemperature:'20 C'},
+    { id: 3, transcationID:'',assetID: 'BC-00213', tagID:'PHA-0003', assetType:'BUCKET', assetStatus: "Occupied", assetAge:new Date('12/03/2024'), client:'Mr.Flexx',comitteeName:'Shanessa', previousLocation:'Washing',currentLocation: 'Warehouse', lastSeen:new Date('20/03/2024 05:30:20'),  assetTemperature:'20 C'},
+    { id: 5, transcationID:'', assetID: 'BC-00541', tagID:'PHA-0004',assetType:'BUCKET', assetStatus:"Occupied", assetAge:new Date('12/03/2024'), client:'Mr.Flexx',comitteeName:'Shanessa', previousLocation:'Washing',currentLocation: 'Warehouse', lastSeen: new Date('20/03/2024 05:30:20'), assetTemperature:'20 C'},
+    { id: 6, transcationID:'', assetID: 'BC-00765', tagID:'PHA-0005',assetType:'BUCKET', assetStatus: "Occupied", assetAge:new Date('12/03/2024'), client:'Mr.Flexx',comitteeName:'Shanessa', previousLocation:'Washing',currentLocation: 'Warehouse', lastSeen: new Date('20/03/2024 05:30:20'),  assetTemperature:'20 C'},
+    { id: 8, transcationID:'', assetID: 'BC-00731', tagID:'PHA-0007', assetType:'BUCKET', assetStatus: "Occupied", assetAge:new Date('12/03/2024'),client:'Mr.Flexx', comitteeName:'Shanessa', previousLocation:'Packaging',currentLocation: 'T-Hofke Bloemenwinkle', lastSeen: new Date('20/03/2024 05:30:20'),  assetTemperature:'20 C'},
   ];
 
   

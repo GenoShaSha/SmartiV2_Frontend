@@ -73,7 +73,7 @@ export function getAssetColumns(handleClickAction: (clickedRow: any) =>void): Gr
         },        
         {
             field: "lastSeen",
-            headerName: "Last seen",
+            headerName: "Last Seen",
             flex: 1,
             minWidth: 100,
             type: 'dateTime',
