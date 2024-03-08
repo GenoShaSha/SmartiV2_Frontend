@@ -7,6 +7,8 @@ import LoadingScreen from "./Components/LoadingScreen/Loadingscreen";
 import Layout from "./Layout/MainLayout";
 import ListOfActiveAssets from "./Components/Assets/ListOfActiveAssets";
 import ListOfSpecificAssetsHistory from "./Components/Assets/AssetsHistory/ListOfSpecificAssetHistory";
+import ListOfDevices from "./Components/Devices/ListOfDevices";
+import ListOfReaders from "./Components/Devices/Readers/ListOfReaders";
 
 function App() {
   // STATES
@@ -37,7 +39,10 @@ function App() {
             <Route path="/" element={<></>} />
             <Route path="/Assets" element={<ListOfActiveAssets/>} />     
             <Route path="/AssetsHistory/:assetId" element={<ListOfSpecificAssetsHistory/>} />            
+            <Route path="/Devices" element={<ListOfDevices/>} />            
             <Route path="/UserManagement" element={<></>} />
+            <Route path="/Readers" element={<ListOfReaders/>} />
+
           </Routes>
         </Layout>
       </HashRouter>

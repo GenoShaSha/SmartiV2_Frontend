@@ -193,7 +193,7 @@ const Location = [
   const handleRowClick = (params: GridRowParams) => {
     // Navigate to another page when a row is clicked
     const id = params.row.assetID as string; // Assuming 'id' is a number
-    navigate(`/AssetsHistory/${id}`);
+    navigate(`{/AssetsHistory/${id}`);
 
   };
 

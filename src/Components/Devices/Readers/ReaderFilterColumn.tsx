@@ -7,25 +7,25 @@ import { Schema } from "read-excel-file";
 export function getReaderColumns(): GridColDef[]{
     return[
         {
+            field: "id",
+            headerName: "ID",
+            flex: 1,
+        },  
+        {
             field: "readerId",
             headerName: "reader ID",
             flex: 1,
-        },        
-        {
-            field: "lastChanged",
-            headerName: "Last Changed",
-            flex: 1,
-        },        
-        {
-            field: "readerLocation",
-            headerName: "Location",
-            flex: 1,
-        }, 
-        {
-            field: "readerStatus",
-            headerName: "Status",
-            flex: 1,
-        },         
+        },            
+        // {
+        //     field: "readerLocation",
+        //     headerName: "Location",
+        //     flex: 1,
+        // }, 
+        // {
+        //     field: "readerStatus",
+        //     headerName: "Status",
+        //     flex: 1,
+        // },         
         {
             field: "lastChanged",
             headerName: "Last Changed",

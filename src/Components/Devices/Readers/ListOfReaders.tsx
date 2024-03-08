@@ -1,8 +1,7 @@
-import { Box, Paper, Stack, Tab } from "@mui/material";
+import { Box, Paper, Stack } from "@mui/material";
 import { GridCellParams, GridColumnVisibilityModel } from "@mui/x-data-grid-pro";
 import Search from "../../Search/Search";
 import DateRangePickerComponent from "../../DateRangePicker/DateRangePicker";
-import React from "react";
 import Selector from "../../Selector/Selector";
 import { Dayjs } from "dayjs";
 import { LoadingButton } from "@mui/lab";
@@ -12,6 +11,9 @@ import { Assets } from "../../../Models/Assets";
 import { GridRowParams } from "@mui/x-data-grid-pro";
 import CustomToolbar from "../../CustomDataGridToolbar/CustomDataGridToolbar";
 import { useNavigate } from 'react-router-dom';
+import React, {useEffect, useState} from "react";
+import { useReadersService } from "../../../Services/ReaderService";
+import {Reader} from '../../../Models/Reader';
 
 // import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 // import { selectCustomerSettingsState } from "../../../Features/customerSettingSlice";
@@ -29,31 +31,6 @@ import { useNavigate } from 'react-router-dom';
 // import { OrderDetailPanelContent } from "./OrderDetailsPanelContent";
 
 
-
-
-  const userData = [
-    { id: 1, transcationID:'', assetID: 'BC-00123', tagID:'PHA-0001', from:'T-Hofke Bloemenwinkle', to: "Washing", duration:new Date('12/03/2024'), status:'Delivered'},
-    { id: 2, transcationID:'', assetID: 'BC-00321', tagID:'PHA-0002', from:'T-Hofke Bloemenwinkle', to: "Washing", duration:new Date('12/03/2024'), status:'Delivered'},
-    { id: 3, transcationID:'', assetID: 'BC-00213', tagID:'PHA-0003', from:'T-Hofke Bloemenwinkle', to: "Washing", duration:new Date('12/03/2024'), status:'Delivered'},
-    { id: 5, transcationID:'', assetID: 'BC-00541', tagID:'PHA-0004', from:'T-Hofke Bloemenwinkle', to: "Washing", duration:new Date('12/03/2024'), status:'Delivered'},
-    { id: 6, transcationID:'', assetID: 'BC-00765', tagID:'PHA-0005', from:'T-Hofke Bloemenwinkle', to: "Washing", duration:new Date('12/03/2024'), status:'Delivered'},
-    { id: 8, transcationID:'', assetID: 'BC-00731', tagID:'PHA-0007', from:'Warehouse', to: "Packaging", duration:new Date('12/03/2024'), status:'Delivered'},
-  ];
-
-  
-  const rows = userData.map((user) => ({
-    id: user.id,
-    transactionID: user.transcationID,
-    assetID: user.assetID,
-    tagID: user.tagID,
-    from: user.from,
-    to: user.to,
-    duration: new Date(user.duration),
-    status: user.status,
-  }));
-
-
-
 const Location = [
     {
       label: " ",
@@ -69,7 +46,20 @@ const Location = [
 
   ] as any;
 
-  const ListOfAssetsHistory = () =>{
+  const ListOfReaders = () =>{
+
+    const readerData: Reader[] = useReadersService();
+    const rows = readerData.map((reader) => ({
+        id: reader.id,
+        readerId: reader.readerId,
+        name: reader.name,
+        lastChanged: new Date(reader.lastChanged),
+        lastFetched: new Date(reader.lastFetched),
+        mode: reader.mode,
+        slug: reader.slug,
+        }));
+
+
     const [ToolbarProps, setToolBarProps] = React.useState({
         viewGridToolbarExport: true,
         viewGridToolbarColumnsButton: true,
@@ -231,7 +221,7 @@ const Location = [
                   toolbar: { ...ToolbarProps, selectedTab },
                 }}
                 rows={rows}
-                loading={userData.length === 0}    
+                loading={readerData.length === 0}    
                 onRowClick={handleRowClick}           
                 columns={columns.map((col) => {
                   return {
@@ -266,5 +256,5 @@ const Location = [
       );
     };
 
-  export default ListOfAssetsHistory;
+  export default ListOfReaders;
   
