@@ -11,14 +11,16 @@ import { StyledDataGrid } from "../../StyledDataGridPro/StyledDataGridPro";
 import { Assets } from "../../../Models/Assets";
 import { GridRowParams } from "@mui/x-data-grid-pro";
 import CustomToolbar from "../../CustomDataGridToolbar/CustomDataGridToolbar";
-import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { useEffect } from "react";
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { selectCustomerSettingsState } from "../../../Features/customerSettingSlice";
-import { dismissToast, showErrorToast, showLoadingToast, showSuccessToast } from "../../../Utils/Toast";
-import { useSelector } from "react-redux";
-import { selectUserState } from "../../../Features/userSlice";
-import { UploadOutlined } from "@mui/icons-material";
+import AppBarWithDrawer from "../../AppBarAndDrawer/AppBarDrawer";
+
+// import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+// import { selectCustomerSettingsState } from "../../../Features/customerSettingSlice";
+// import { dismissToast, showErrorToast, showLoadingToast, showSuccessToast } from "../../../Utils/Toast";
+// import { useSelector } from "react-redux";
+// import { selectUserState } from "../../../Features/userSlice";
+// import { UploadOutlined } from "@mui/icons-material";
 
 // both of this currently is not use.
 // import CustomerService from "../../services/CustomerService";
@@ -40,7 +42,7 @@ interface ListOfSpecificAssetHistory {
 }
 
 
-  const userData = [
+  const userData: ListOfSpecificAssetHistory[] = [
     { id: 1, transcationID:'aa', assetID: 'BC-00123', tagID:'PHA-0001', from:'T-Hofke Bloemenwinkle', to: "Washing", duration:new Date('12/03/2024'), status:'Delivered'},
     { id: 2, transcationID:'ss', assetID: 'BC-00321', tagID:'PHA-0002', from:'T-Hofke Bloemenwinkle', to: "Washing", duration:new Date('12/03/2024'), status:'Delivered'},
     { id: 3, transcationID:'dd', assetID: 'BC-00213', tagID:'PHA-0003', from:'T-Hofke Bloemenwinkle', to: "Washing", duration:new Date('12/03/2024'), status:'Delivered'},
@@ -95,9 +97,11 @@ const Location = [
     const [customers, setCustomers] = React.useState<any[]>([]);
     const [taskDialog, setTaskDialog] = React.useState<any>({ open: false, order: null });
     const columns = getAssetHistoryColumns();
+    const { assetId } = useParams()
 
 
-    const [filteredData, setFilteredData] = React.useState<ListOfSpecificAssetHistory[]>(userData);
+
+    const [filteredData, setFilteredData] = React.useState<ListOfSpecificAssetHistory[]>([]);
     const [searchId, setSearchId] = React.useState<string>(" ");
   
 
@@ -165,6 +169,9 @@ const Location = [
             ...prevState,
             disableMoreActions: true,
         }));
+        console.log("THIS IS SEARCHID:" )
+        const filtered = userData.filter(item => item.assetID === assetId);
+        setFilteredData(filtered);
     }, [selectedRows]);
 
     const dateRangePickerValueChanged = (value: [Dayjs | null, Dayjs | null]) => {
@@ -176,21 +183,6 @@ const Location = [
     localStorage.setItem("assets-columns", JSON.stringify(model));
     };
 
-
-    const { id } = useParams<{ id: string }>()
-
-    const handleSearch = () => {
-        if (searchId === '') {
-          setFilteredData(userData);
-        } else {
-          const filtered = userData.filter(item => item.assetID === id);
-          setFilteredData(filtered);
-        } 
-    }
-
-    useEffect(() => {
-        handleSearch(); // Trigger search when searchId changes
-      }, [searchId]);
 
     const rows = filteredData.map((user) => ({
         id: user.id,
@@ -216,7 +208,7 @@ const Location = [
           {/* <Taskdialog taskDialog={taskDialog} setTaskDialog={setTaskDialog} /> */}
           {/* <ImportOrderModal open={createOrderModalOpen} setOpen={setCreateOrderModalOpen} /> */}
           <Box sx={{ p: 1, height: "100%", width: "98%", mt: -5.5, minHeight: "30rem", overflow: "hidden" }}>
-          {pathname === `/AssetsHistory/${id}`}
+          {/* {pathname === `/AssetsHistory/${assetId}`&& <AppBarWithDrawer/> } */}
             <Stack direction="row" spacing={2} mt={2}>
             <br />
             </Stack>
@@ -255,8 +247,8 @@ const Location = [
                 slotProps={{
                   toolbar: { ...ToolbarProps, selectedTab },
                 }}
-                rows={}
-                loading={userData.length === 0}    
+                rows={rows}
+                loading={filteredData.length === 0}    
                 columns={columns.map((col) => {
                   return {
                     ...col,

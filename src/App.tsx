@@ -31,15 +31,13 @@ function App() {
   
   return (
     <>
-      <HashRouter>
-        <Layout>
-
+       <HashRouter>
+        <Layout> {/* Layout component outside of Routes */}
           <Routes>
             <Route path="/" element={<></>} />
             <Route path="/Assets" element={<ListOfActiveAssets/>} />     
             <Route path="/AssetsHistory/:assetId" element={<ListOfSpecificAssetsHistory/>} />            
             <Route path="/UserManagement" element={<></>} />
-
           </Routes>
         </Layout>
       </HashRouter>

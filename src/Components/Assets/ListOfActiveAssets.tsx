@@ -1,34 +1,40 @@
-import { Box, Paper, Stack, Tab, Typography } from "@mui/material";
-import { DataGridProProps, GridCellParams, GridColumnVisibilityModel } from "@mui/x-data-grid-pro";
+import { Box, Paper, Stack, Tab } from "@mui/material";
+import {GridCellParams, GridColumnVisibilityModel } from "@mui/x-data-grid-pro";
 import Search from "../Search/Search";
 import DateRangePickerComponent from "../DateRangePicker/DateRangePicker";
-import React, { useEffect } from "react";
+import React from "react";
 import Selector from "../Selector/Selector";
 import { Dayjs } from "dayjs";
 import { LoadingButton } from "@mui/lab";
-import { UploadOutlined } from "@mui/icons-material";
 import { getAssetColumns } from "./AssetFilterColumn";
 // import ImportOrderModal from "./ImportOrderModal";
 import { StyledDataGrid } from "../StyledDataGridPro/StyledDataGridPro";
-import { selectUserState } from "../../Features/userSlice";
 import { Assets } from "../../Models/Assets";
-import { useSelector } from "react-redux";
 // import { OrderDetailPanelContent } from "./OrderDetailsPanelContent";
 import { GridRowParams } from "@mui/x-data-grid-pro";
-import { dismissToast, showErrorToast, showLoadingToast, showSuccessToast } from "../../Utils/Toast";
 import { TabContext, TabList } from "@mui/lab";
 import CustomToolbar from "../CustomDataGridToolbar/CustomDataGridToolbar";
+import { useNavigate } from 'react-router-dom';
+import ListOfAssetsHistory from "./AssetsHistory/ListOfAssetsHistory";
+import TabPanel from '@mui/lab/TabPanel';
+
+
 //This is for the firebase
 // import FileUtils from "../../Utils/FileUtils";
-import { selectCustomerSettingsState } from "../../Features/customerSettingSlice";
 // both of this currently is not use.
 // import CustomerService from "../../services/CustomerService";
 // import { useOrdersService } from "../../services/OrdersService";
 // import Taskdialog from "./TaskPopup";
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { useNavigate } from 'react-router-dom';
-import ListOfAssetsHistory from "./AssetsHistory/ListOfAssetsHistory";
-import TabPanel from '@mui/lab/TabPanel';
+
+
+// import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+// import { selectCustomerSettingsState } from "../../Features/customerSettingSlice";
+// import { useSelector } from "react-redux";
+// import { selectUserState } from "../../Features/userSlice";
+// import { UploadOutlined } from "@mui/icons-material";
+// import { dismissToast, showErrorToast, showLoadingToast, showSuccessToast } from "../../Utils/Toast";
+
+
 
   const userData = [
     { id: 1, assetID: 'BC-00123', tagID:'PHA-0001', assetType:'BUCKET', assetStatus: "Occupied",assetAge:new Date('12/03/2024'), client:'Mr.Flexx', comitteeName:'Shanessa', previousLocation:'Washing', currentLocation: 'Warehouse', lastSeen: new Date('20/03/2024 05:30:20'), assetTemperature:'20 C'},
@@ -188,6 +194,7 @@ const Location = [
     // Navigate to another page when a row is clicked
     const id = params.row.assetID as string; // Assuming 'id' is a number
     navigate(`/AssetsHistory/${id}`);
+
   };
 
       return (
