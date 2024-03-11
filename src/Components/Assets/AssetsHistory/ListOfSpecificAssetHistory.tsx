@@ -8,7 +8,7 @@ import { Dayjs } from "dayjs";
 import { LoadingButton } from "@mui/lab";
 import { getAssetHistoryColumns } from "./AssetsHistoryFilterColumn";
 import { StyledDataGrid } from "../../StyledDataGridPro/StyledDataGridPro";
-import { Assets } from "../../../Models/Assets";
+import { Assets } from "../../../Models/Asset";
 import { GridRowParams } from "@mui/x-data-grid-pro";
 import CustomToolbar from "../../CustomDataGridToolbar/CustomDataGridToolbar";
 import { useLocation, useParams } from 'react-router-dom';

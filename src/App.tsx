@@ -8,7 +8,10 @@ import Layout from "./Layout/MainLayout";
 import ListOfActiveAssets from "./Components/Assets/ListOfActiveAssets";
 import ListOfSpecificAssetsHistory from "./Components/Assets/AssetsHistory/ListOfSpecificAssetHistory";
 import ListOfDevices from "./Components/Devices/ListOfDevices";
+import { LocalizationProvider } from "@mui/x-date-pickers";
 import ListOfReaders from "./Components/Devices/Readers/ListOfReaders";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+
 
 function App() {
   // STATES
@@ -32,7 +35,7 @@ function App() {
 
   
   return (
-    <>
+    <LocalizationProvider dateAdapter={AdapterMoment}>
        <HashRouter>
         <Layout> {/* Layout component outside of Routes */}
           <Routes>
@@ -47,7 +50,7 @@ function App() {
         </Layout>
       </HashRouter>
       <ToastContainer position="bottom-center" autoClose={4000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
-    </>
+      </LocalizationProvider>
   );
 }
 

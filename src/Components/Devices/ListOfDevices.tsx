@@ -9,7 +9,7 @@ import { LoadingButton } from "@mui/lab";
 // import { getAssetColumns } from "./AssetFilterColumn";
 // import ImportOrderModal from "./ImportOrderModal";
 import { StyledDataGrid } from "../StyledDataGridPro/StyledDataGridPro";
-import { Assets } from "../../Models/Assets";
+import { Assets } from "../../Models/Asset";
 // import { OrderDetailPanelContent } from "./OrderDetailsPanelContent";
 import { GridRowParams } from "@mui/x-data-grid-pro";
 import { TabContext, TabList } from "@mui/lab";

@@ -7,7 +7,7 @@ import { Dayjs } from "dayjs";
 import { LoadingButton } from "@mui/lab";
 import { getReaderColumns } from "./ReaderFilterColumn";
 import { StyledDataGrid } from "../../StyledDataGridPro/StyledDataGridPro";
-import { Assets } from "../../../Models/Assets";
+import { Assets } from "../../../Models/Asset";
 import { GridRowParams } from "@mui/x-data-grid-pro";
 import CustomToolbar from "../../CustomDataGridToolbar/CustomDataGridToolbar";
 import { useNavigate } from 'react-router-dom';
@@ -48,8 +48,8 @@ const Location = [
 
   const ListOfReaders = () =>{
 
-    const readerData: Reader[] = useReadersService();
-    const rows = readerData.map((reader) => ({
+    const readerData = useReadersService();
+    const rows = readerData.readers.map((reader) => ({
         id: reader.id,
         readerId: reader.readerId,
         name: reader.name,
@@ -72,75 +72,22 @@ const Location = [
     const [fileterStatusValue, setFileterStatusValue] = React.useState([]);
     const [fileterActionsValue, setFileterActionsValue] = React.useState([]);
     const [dateRangeValue, setDateRangeValue] = React.useState<[Dayjs | null, Dayjs | null]>([null, null]);
-    const [colsVisibilityModel, setColsVisibilityModel] = React.useState({
-        transactionID: true,
-        assetID: true,
-        tagID: true,
-        from: true,
-        to: true,
-        duration: true,
-        description: true,
-    } as any);
-    const [createOrderModalOpen, setCreateOrderModalOpen] = React.useState<boolean>(false);
+    // const [colsVisibilityModel, setColsVisibilityModel] = React.useState({
+    //     transactionID: true,
+    //     assetID: true,
+    //     tagID: true,
+    //     from: true,
+    //     to: true,
+    //     duration: true,
+    //     description: true,
+    // } as any);
     const [selectedTab, setSelectedTab] = React.useState<string>("activeAssets");
     const [selectedRows, setSelectedRows] = React.useState<Assets[]>([]);
     const [userCanUpsertOrders, setUserCanUpsertOrders] = React.useState<boolean>(false);
     const [searchValue, setSearchValue] = React.useState<string>("");
-    const [customers, setCustomers] = React.useState<any[]>([]);
     const [taskDialog, setTaskDialog] = React.useState<any>({ open: false, order: null });
     const columns = getReaderColumns();
-    // const { orders, setOrders, loading, setLoading, updateOrder, uploadFiles, deleteDocFromShipment, filterOrders, filteredOrders } = useOrdersService(dateRangeValue);  //Only use when the service is done 
-    // const { user } = useSelector(selectUserState); //only use it when the service and model is ready
-    // const customerSettings = useSelector(selectCustomerSettingsState);  //only use it when the service and model is ready
 
-
-    // Only use it when the service is done
-    // useEffect(() => {
-    //     (async () => {
-    //       if (user.clientId == "import.meta.env.VITE_FIREBASE_RITMEESTER_ID") {
-    //         const listCustomers = await CustomerService.getCustomers(user.customerId);
-    //         setCustomers(listCustomers?.map((c: any) => ({ label: c.companyName, value: c.documentId })));
-    //       }
-    //     })();
-    //   }, [user]);
-
-    // only use it when the service is ready
-    // user can create orders
-    //   useEffect(() => {
-    //     if (!user) return;
-    //     if (user.clientCategory) {
-    //       if (customerSettings?.customerCategories?.[user.clientCategory]?.can_update_orders) {
-    //         if (user.role !== "viewer" && user.role !== "user") {
-    //           setUserCanUpsertOrders(true);
-    //         }
-    //       }
-    //     } else {
-    //       if (user.role !== "viewer" && user.role !== "user") {
-    //         setUserCanUpsertOrders(true);
-    //       }
-    //     }
-    //   }, [user]);
-
-    // only use it when the service is done    
-    //   React.useEffect(() => {
-    //      filterOrders(searchValue, fileterCustomerValue, fileterActionsValue, fileterStatusValue);    
-    //   },[orders,searchValue, dateRangeValue, fileterActionsValue, fileterCustomerValue, fileterStatusValue]);
-    //   // functions
-    //   // getting cols model from localstorage
-    //   React.useEffect(() => {
-    //     if (localStorage.getItem("assets-columns")) {
-    //       setColsVisibilityModel(JSON.parse(localStorage.getItem("assets-columns") || "{}"));
-    //     }
-    //   }, []);
-    
-    // Only hppen after the service is done
-    //   function handleRowSelection(selectedRowsId: Array<String>) {
-    //     const selectedRows = orders.filter((d: any) => selectedRowsId.includes(d.fbId));
-    //     setSelectedRows(selectedRows);
-    //   }
-    //   const downloadFile = (filePath: any) => {
-    //     FileUtils.downloadFile(filePath);
-    //   };
 
     React.useEffect(() => {
     selectedRows.length > 0
@@ -154,18 +101,18 @@ const Location = [
         }));
     }, [selectedRows]);
 
-    function handleACtionsClick(row: Assets) {
-    setTaskDialog({ open: true, order: row });
-    }
+    // function handleACtionsClick(row: Assets) {
+    // setTaskDialog({ open: true, order: row });
+    // }
 
     const dateRangePickerValueChanged = (value: [Dayjs | null, Dayjs | null]) => {
     setDateRangeValue([value[0], value[1]]);
     };
     
-    const columnVisibilityModelChanged = (model: GridColumnVisibilityModel) => {
-    setColsVisibilityModel(model);
-    localStorage.setItem("assets-columns", JSON.stringify(model));
-    };
+    // const columnVisibilityModelChanged = (model: GridColumnVisibilityModel) => {
+    // setColsVisibilityModel(model);
+    // localStorage.setItem("assets-columns", JSON.stringify(model));
+    // };
 
     const navigate = useNavigate();
 
@@ -221,7 +168,7 @@ const Location = [
                   toolbar: { ...ToolbarProps, selectedTab },
                 }}
                 rows={rows}
-                loading={readerData.length === 0}    
+                loading={rows.length === 0}    
                 onRowClick={handleRowClick}           
                 columns={columns.map((col) => {
                   return {
@@ -240,14 +187,10 @@ const Location = [
                     right: ["documents", "actions", "status"],
                   },
                 }}
-                //only happen when the service is done!!!!!!!!
-                // onRowSelectionModelChange={(ids) => {
-                //   handleRowSelection(ids as Array<String>);
-                // }}
                 checkboxSelection
                 disableRowSelectionOnClick
-                columnVisibilityModel={colsVisibilityModel}
-                onColumnVisibilityModelChange={(model: GridColumnVisibilityModel) => columnVisibilityModelChanged(model)}
+                // columnVisibilityModel={colsVisibilityModel}
+                // onColumnVisibilityModelChange={(model: GridColumnVisibilityModel) => columnVisibilityModelChanged(model)}
                 onProcessRowUpdateError={(params: any) => console.log("error", params)}
               />
             </Paper>
